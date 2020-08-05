@@ -73,5 +73,8 @@ def scrape():
     "Mars Facts": mars_tables,
     "Hemisphere Image URL's":hemisphere_image_urls
     }
-
+    browser.quit()
     return scrape_data_dict
+
+if __name__ == "__main__":
+    print(scrape())
