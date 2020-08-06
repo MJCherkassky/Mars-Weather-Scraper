@@ -58,12 +58,27 @@ def scrape():
     mars_tables.to_html()
 
     ############ MARS HEMISPHERES ############
-    hemisphere_image_urls = [
-    {"title": "Valles Marineris Hemisphere", "img_url": "https://astrogeology.usgs.gov/cache/images/b3c7c6c9138f57b4756be9b9c43e3a48_valles_marineris_enhanced.tif_full.jpg"},
-    {"title": "Cerberus Hemisphere", "img_url": "https://astrogeology.usgs.gov/cache/images/f5e372a36edfa389625da6d0cc25d905_cerberus_enhanced.tif_full.jpg"},
-    {"title": "Schiaparelli Hemisphere", "img_url": "https://astrogeology.usgs.gov/cache/images/3778f7b43bbbc89d6e3cfabb3613ba93_schiaparelli_enhanced.tif_full.jpg"},
-    {"title": "Syrtis Major Hemisphere", "img_url": "https://astrogeology.usgs.gov/cache/images/555e6403a6ddd7ba16ddb0e471cadcf7_syrtis_major_enhanced.tif_full.jpg"},
-    ]
+    hemisphere_image_urls = []
+
+    # Get a List of All the Hemispheres
+    url = "https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars"
+    browser.visit(url)
+    links = browser.find_by_css("a.product-item h3")
+    for item in range(len(links)):
+        hemisphere = {}
+        # Find element to navigate to each hemisphere page
+        browser.find_by_css("a.product-item h3")[item].click()
+        # Get hemisphere name text
+        hemisphere["Title"] = browser.find_by_css("h2.title").text
+        # Extract href tag from Sample jpg
+        sample_element = browser.find_link_by_text("Sample").first
+        hemisphere["Image URL"] = sample_element["href"]     
+        # Append info dictionary to above list
+        hemisphere_image_urls.append(hemisphere)   
+        # Return to main Mars Hemisphere page to restart the for loop at the top
+        browser.back()
+
+    hemisphere_image_urls
 
     scrape_data_dict= {
     "News Title": news_title,
