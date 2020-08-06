@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup as bs
 from splinter import Browser
 import pandas as pd
 import requests
+import time
 from twitter_scraper import get_tweets
 
 # Create functions from Jupyter Notebook work
@@ -14,6 +15,7 @@ def scrape():
     browser = Browser("chrome", **executable_path, headless=False)
     url = 'https://mars.nasa.gov/news/'
     browser.visit(url)
+    time.sleep(2)
 
     #Parse webpage
     html= browser.html
@@ -41,6 +43,7 @@ def scrape():
     ############# MARS TWITTER WEATHER ############
     weather_url = 'https://twitter.com/marswxreport?lang=en'
     browser.visit(weather_url)
+    time.sleep(2)
     html_weather=browser.html
     soup=bs(html_weather, 'html.parser')
     tweets=[]
@@ -55,7 +58,7 @@ def scrape():
     mars_tables = fact_tables[0]
     mars_tables.columns = ["Description","Value"]
     mars_tables.set_index('Description', inplace=True)
-    mars_tables.to_html()
+    mars_tables=mars_tables.to_html()
 
     ############ MARS HEMISPHERES ############
     hemisphere_image_urls = []
@@ -69,10 +72,10 @@ def scrape():
         # Find element to navigate to each hemisphere page
         browser.find_by_css("a.product-item h3")[item].click()
         # Get hemisphere name text
-        hemisphere["Title"] = browser.find_by_css("h2.title").text
+        hemisphere["title"] = browser.find_by_css("h2.title").text
         # Extract href tag from Sample jpg
         sample_element = browser.find_link_by_text("Sample").first
-        hemisphere["Image URL"] = sample_element["href"]     
+        hemisphere["img_url"] = sample_element["href"]     
         # Append info dictionary to above list
         hemisphere_image_urls.append(hemisphere)   
         # Return to main Mars Hemisphere page to restart the for loop at the top
