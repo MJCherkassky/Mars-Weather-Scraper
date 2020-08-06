@@ -6,27 +6,6 @@ import requests
 import time
 from twitter_scraper import get_tweets
 
-
-def mars_news(browser):
-    url = 'https://mars.nasa.gov/news/'
-    browser.visit(url)
-
-    browser.is_element_present_by_css("ul.item_list li.slide", wait_time=1)
-
-    html= browser.html
-    soup = bs(html, 'html.parser')
-
-    try:
-        first_article = soup.select_one('ul.item_list li.slide')
-        news_title = first_article.find('div', class_='content_title').get_text()
-        news_p = first_article.find('div', class_='article_teaser_body').get_text()
-    except AttributeError:
-        return None, None,
-    
-    return news_title, news_p
-
-
-
 # Create functions from Jupyter Notebook work
 def scrape():
     ############ NASA MARS NEWS ############
