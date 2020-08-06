@@ -12,7 +12,7 @@
 <body>
   <div class="container">
     <div class="jumbotron text-center">
-      <h1>Mission to Mars!</h1>
+      <h1>Mission to Mars!!</h1>
       <p><a class="btn btn-primary btn-lg" href="/scrape" role="button">Start Scraping</a></p>
     </div>
   </div>
@@ -35,7 +35,7 @@
   <div class="row">
     <div class="col-sm-8">
       <h2>Featured Mars Image</h2>
-      <img src="{{mars.direct_img_url}}" alt="JPL" class="img-responsive">
+      <img src="{{ mars.direct_image_url }}" alt="Image" class="img-responsive">
     </div>
     <div class="col-sm-4">
       <h2>Current Weather on Mars</h2>
@@ -59,8 +59,8 @@
   <div class = "col-lg-12">
     <div class = "card" style = "width:20rem;">
       <div class = "card-body">
-        <h4 class= "card-title">{{ hemisphere_image_urls.title }}</h4>
-        <img src = "{{ hemisphere_image_urls.img_url }}" alt = "{{ hemisphere_image_urls.title }}">
+        <h4 class= "card-title">{{ hemi.title }}</h4>
+        <img src = "{{ hemi.img_url }}" alt = "{{ hemi.title }}">
       </div>
     </div>
   </div>

@@ -6,6 +6,27 @@ import requests
 import time
 from twitter_scraper import get_tweets
 
+
+def mars_news(browser):
+    url = 'https://mars.nasa.gov/news/'
+    browser.visit(url)
+
+    browser.is_element_present_by_css("ul.item_list li.slide", wait_time=1)
+
+    html= browser.html
+    soup = bs(html, 'html.parser')
+
+    try:
+        first_article = soup.select_one('ul.item_list li.slide')
+        news_title = first_article.find('div', class_='content_title').get_text()
+        news_p = first_article.find('div', class_='article_teaser_body').get_text()
+    except AttributeError:
+        return None, None,
+    
+    return news_title, news_p
+
+
+
 # Create functions from Jupyter Notebook work
 def scrape():
     ############ NASA MARS NEWS ############
@@ -85,14 +106,14 @@ def scrape():
     hemisphere_image_urls
 
     scrape_data_dict= {
-    "News Title": news_title,
-    "News Paragraph": news_p,
-    "Image": direct_image_url,
-    "Tweet":first_tweet,
-    "Mars Facts": mars_tables,
-    "Hemisphere Image URL's":hemisphere_image_urls
+    "title": news_title,
+    "news_p": news_p,
+    "direct_image_url": direct_image_url,
+    "first_tweet":first_tweet,
+    "mars_tables": mars_tables,
+    "hemisphere_image_urls":hemisphere_image_urls
     }
-    
+    print(scrape_data_dict)
     return scrape_data_dict
 
 if __name__ == "__main__":
