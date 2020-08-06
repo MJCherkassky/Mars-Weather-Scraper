@@ -23,6 +23,7 @@ def scrape():
     first_article = soup.select_one('ul.item_list li.slide')
     news_title = first_article.find('div', class_='content_title').text
     news_p = first_article.find('div', class_='article_teaser_body').text
+    browser.quit()
 
     ############ JPL MARS FEATURED IMAGE ############
     #Set Executable Path & identify URL path
@@ -33,7 +34,7 @@ def scrape():
 
     full_image_button = browser.find_by_id('full_image')
     full_image_button.click()
-    more_info_element = browser.find_link_by_partial_text('more info')
+    more_info_element = browser.links.find_by_partial_text('more info')
     more_info_element.click()
     html = browser.html
     image_souped = bs(html, 'html.parser')
@@ -74,13 +75,13 @@ def scrape():
         # Get hemisphere name text
         hemisphere["title"] = browser.find_by_css("h2.title").text
         # Extract href tag from Sample jpg
-        sample_element = browser.find_link_by_text("Sample").first
+        sample_element = browser.links.find_by_text("Sample").first
         hemisphere["img_url"] = sample_element["href"]     
         # Append info dictionary to above list
         hemisphere_image_urls.append(hemisphere)   
         # Return to main Mars Hemisphere page to restart the for loop at the top
         browser.back()
-
+    browser.quit()
     hemisphere_image_urls
 
     scrape_data_dict= {
@@ -91,7 +92,7 @@ def scrape():
     "Mars Facts": mars_tables,
     "Hemisphere Image URL's":hemisphere_image_urls
     }
-    browser.quit()
+    
     return scrape_data_dict
 
 if __name__ == "__main__":
