@@ -76,9 +76,9 @@ def scrape():
         hemisphere["title"] = browser.find_by_css("h2.title").text
         # Extract href tag from Sample jpg
         sample_element = browser.links.find_by_text("Sample").first
-        hemisphere["img_url"] = sample_element["href"]     
+        hemisphere["img_url"] = sample_element["href"]
         # Append info dictionary to above list
-        hemisphere_image_urls.append(hemisphere)   
+        hemisphere_image_urls.append(hemisphere)
         # Return to main Mars Hemisphere page to restart the for loop at the top
         browser.back()
     browser.quit()
